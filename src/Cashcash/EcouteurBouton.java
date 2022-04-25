@@ -47,6 +47,11 @@ public class EcouteurBouton implements ActionListener {
             firstname.appendChild(doc.createTextNode("Eric"));
             staff.appendChild(firstname);
 
+            // Ajout de l'élément Nom de famille
+            Element lastname = doc.createElement("Nom");
+            lastname.appendChild(doc.createTextNode("Maes"));
+            staff.appendChild(lastname);
+
             // Ajouter du contenu dans le document XML
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
