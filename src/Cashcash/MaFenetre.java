@@ -16,6 +16,5 @@ public class MaFenetre extends JFrame{
         boutonTwo.addActionListener(new EcouteurBouton());
         this.setContentPane(pan);
         this.setVisible(true);
-
     }
 }

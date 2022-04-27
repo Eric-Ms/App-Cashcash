@@ -63,11 +63,11 @@ public class EcouteurBouton implements ActionListener {
             System.out.println("Le fichier à été généré avec succès !");
 
             // Codes d'erreurs
-        } catch (ParserConfigurationException pce) {
+            } catch (ParserConfigurationException pce) {
             pce.printStackTrace();
-        } catch (TransformerException tfe) {
+            } catch (TransformerException tfe) {
             tfe.printStackTrace();
-        }
+            }
         }
     }
 }
