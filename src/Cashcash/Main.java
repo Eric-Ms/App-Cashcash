@@ -17,7 +17,7 @@ public class Main {
             Class.forName("com.mysql.jdbc.Driver");
             System.out.println("Driver OK !");
             String url="jdbc:mysql://localhost:3306/cashcash";
-            String user="root";
+            String user="";
             String password="";
             Connection cnx=DriverManager.getConnection(url, user, password);
             System.out.println("Connexion à la base de donnée établie.");
