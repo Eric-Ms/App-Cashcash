@@ -8,7 +8,7 @@ public class MaFenetre extends JFrame{
 
 
     public MaFenetre(){
-        setSize(1280, 720);
+        setSize(300, 500);
         setTitle("CashCashApp");
         pan.add(boutonXML);
         boutonXML.addActionListener(new EcouteurBouton());
