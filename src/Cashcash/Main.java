@@ -13,7 +13,7 @@ public class Main {
             String url="jdbc:mysql://localhost:3306/cashcash";
             String user="root";
             String password="";
-            Connection cnx=DriverManager.getConnection(url, user, password);
+            Connection cnx= DriverManager.getConnection(url, user, password);
             System.out.println("Connexion à la base de donnée établie.");
 
             Statement stmt = cnx.createStatement();

@@ -71,7 +71,7 @@ public class EcouteurBouton implements ActionListener {
         }
 
         else if (e.getActionCommand().equals("Deuxième bouton")) {
-            System.out.println("Suce");
+            System.out.println("Thé eau sale eins");
         }
 
 
