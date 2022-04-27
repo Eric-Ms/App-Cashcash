@@ -69,5 +69,11 @@ public class EcouteurBouton implements ActionListener {
             tfe.printStackTrace();
             }
         }
+
+        else if (e.getActionCommand().equals("Deuxième bouton")) {
+            System.out.println("Suce");
+        }
+
+
     }
 }
