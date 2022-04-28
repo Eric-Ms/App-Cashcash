@@ -41,7 +41,6 @@ public class EcouteurBouton implements ActionListener {
                 ResultSet res = stmt.executeQuery(sql);
 
                 //étape 5: extraire les données
-                int amount = 1;
                 while(res.next()){
                     //Récupérer par nom de colonne
                     String codeAPE = res.getString("codeAPE");
@@ -52,13 +51,6 @@ public class EcouteurBouton implements ActionListener {
                     String faxClient = res.getString("faxClient");
                     String raisonSociale = res.getString("raisonSociale");
 
-//                    System.out.print("Num: " + numClient);
-//                    System.out.print("\nMail: " + adresseMail);
-//                    System.out.print("\nNuméro de téléphone: " + telClient);
-//                    System.out.print("\nSIREN: " + SIREN);
-//                    System.out.print("\n====================\n");
-
-
                     DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
@@ -68,7 +60,7 @@ public class EcouteurBouton implements ActionListener {
                     doc.appendChild(rootElement);
 
                     // staff elements
-                    Element staff = doc.createElement("Materiel");
+                    Element staff = doc.createElement("Clients");
                     rootElement.appendChild(staff);
 
                     // Ajout de l'élément Prénom
@@ -110,17 +102,16 @@ public class EcouteurBouton implements ActionListener {
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
                     DOMSource source = new DOMSource(doc);
-                    StreamResult result = new StreamResult(new File("monFichier"+ amount +".xml"));
+                    StreamResult result = new StreamResult(new File("Fichier_de_"+ codeAPE +".xml"));
 
                     transformer.transform(source, result);
-
-                    System.out.println("Le fichier à été généré avec succès !");
-                    amount ++;
 
 
 
                 }
                 cnx.close();
+
+                System.out.println("Les fichiers ont été générés avec succès !");
 
             // Codes d'erreurs
             } catch (ParserConfigurationException pce) {
