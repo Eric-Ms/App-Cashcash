@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import java.io.File;
 import java.sql.*;
+import javax.swing.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -39,6 +40,9 @@ public class EcouteurBouton implements ActionListener {
                 Statement stmt = cnx.createStatement();
                 String sql = "SELECT codeAPE, SIREN, telClient, adresse, adresseMail, faxClient, raisonSociale FROM cashcash.client";
                 ResultSet res = stmt.executeQuery(sql);
+
+                //Créer un nouveau frame pour stocker l'étiquette
+                JFrame frame = new JFrame("Liste des adresses mail");
 
                 //étape 5: extraire les données
                 while(res.next()){
@@ -102,12 +106,18 @@ public class EcouteurBouton implements ActionListener {
                     TransformerFactory transformerFactory = TransformerFactory.newInstance();
                     Transformer transformer = transformerFactory.newTransformer();
                     DOMSource source = new DOMSource(doc);
-                    StreamResult result = new StreamResult(new File("Fichier_de_"+ codeAPE +".xml"));
+                    StreamResult result = new StreamResult(new File("./FichiersXML/Fichier_de_"+ codeAPE +".xml"));
 
                     transformer.transform(source, result);
 
+                    //Créer une étiquette pour afficher du texte centré
+                    JLabel label = new JLabel(adresseMail+"\n");
+                    //Ajouter l'étiquette au frame
+                    frame.add(label);
 
-
+                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    frame.setSize(250, 250);
+                    frame.setVisible(true);
                 }
                 cnx.close();
 
@@ -126,7 +136,7 @@ public class EcouteurBouton implements ActionListener {
         }
 
         else if (e.getActionCommand().equals("Deuxième bouton")) {
-            System.out.println("Thé eau sale eins");
+           System.out.println("Suce");
         }
 
 
