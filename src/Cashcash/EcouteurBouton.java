@@ -39,10 +39,12 @@ public class EcouteurBouton implements ActionListener {
 
                 Statement stmt = cnx.createStatement();
                 String sql = "SELECT codeAPE, SIREN, telClient, adresse, adresseMail, faxClient, raisonSociale FROM cashcash.client";
+                String sql_employe = "SELECT * FROM cashcash.employes WHERE numMatricule = ";
                 ResultSet res = stmt.executeQuery(sql);
 
                 //Créer un nouveau frame pour stocker l'étiquette
                 JFrame frame = new JFrame("Liste des adresses mail");
+                String adresseMailConcat = "<html>"; // Pour les retours à la ligne
 
                 //étape 5: extraire les données
                 while(res.next()){
@@ -111,14 +113,22 @@ public class EcouteurBouton implements ActionListener {
                     transformer.transform(source, result);
 
                     //Créer une étiquette pour afficher du texte centré
-                    JLabel label = new JLabel(adresseMail+"\n");
+                    //JLabel label = new JLabel(adresseMail);
+                    //label.setBounds(0, i, 100, 5);
                     //Ajouter l'étiquette au frame
-                    frame.add(label);
+                    //frame.add(label);
 
-                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    frame.setSize(250, 250);
-                    frame.setVisible(true);
+                    adresseMailConcat += adresseMail + "<br/>";
                 }
+                adresseMailConcat += "</html>";
+                JLabel label = new JLabel(adresseMailConcat);
+
+                frame.add(label);
+
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(250, 250);
+                frame.setVisible(true);
+
                 cnx.close();
 
                 System.out.println("Les fichiers ont été générés avec succès !");
