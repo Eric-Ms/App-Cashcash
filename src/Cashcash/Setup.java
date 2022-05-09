@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 public class Setup{
 
-    JTextField text1,text2;
-    JButton btn, btn2;
+    JTextField saisieNum;
+    JButton btnSearch, btnXML, btnSend;
 
     public Setup() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
@@ -20,21 +20,22 @@ public class Setup{
         System.out.println("Connexion à la base de donnée établie.");
 
         JFrame f = new JFrame("CashCashApp");
-        text1 = new JTextField();
-        text1.setBounds(20,50,310,30);
-        //text2 = new JTextField();
-        //text2.setBounds(20,90,280,30);
-        //text2.setEditable(false);
-        btn = new JButton("Rechercher");
-        btn.setBounds(100,140,160,40);
-        btn.addActionListener(new BoutonClient(text1, cnx));
-        btn2 = new JButton("Générer XML");
-        btn2.setBounds(100,100,160,40);
-        btn2.addActionListener(new BoutonXML(text1, cnx));
-        f.add(text1);
+        saisieNum = new JTextField("Saisissez un numéro de client");
+        saisieNum.setBounds(20,50,310,30);
+        btnSearch = new JButton("Rechercher");
+        btnSearch.setBounds(100,140,160,40);
+        btnSearch.addActionListener(new BoutonClient(saisieNum, cnx));
+        btnXML = new JButton("Générer XML");
+        btnXML.setBounds(100,190,160,40);
+        btnXML.addActionListener(new BoutonXML(saisieNum, cnx));
+        btnSend = new JButton("Envoyer un courier");
+        btnSend.setBounds(100,240,160,40);
+        btnSend.addActionListener(new BoutonSend(saisieNum, cnx));
+        f.add(saisieNum);
         //f.add(text2);
-        f.add(btn);
-        f.add(btn2);
+        f.add(btnSearch);
+        f.add(btnXML);
+        f.add(btnSend);
         f.setSize(370,490);
         f.setLayout(null);
         f.setVisible(true);

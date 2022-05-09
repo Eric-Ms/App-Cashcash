@@ -28,7 +28,6 @@ public class BoutonXML implements ActionListener {
         this.cnx = cnx;
     }
 
-
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
@@ -44,13 +43,10 @@ public class BoutonXML implements ActionListener {
             String sql = "SELECT * FROM cashcash.client WHERE numClient = " + num_client; // Séléction du client ayant le n° de client saisi auparavant
             ResultSet res = stmt.executeQuery(sql); // Exécution de la requête
 
-            //Créer un nouveau frame pour stocker l'étiquette
-            // JFrame frame = new JFrame("Liste des adresses mail");
-            // String adresseMailConcat = "<html>"; // Pour les retours à la ligne
 
-            //étape 5: extraire les données
+            // Extraction des données
             while (res.next()) {
-                //Récupérer par nom de colonne
+                // Récupération par les noms de colonne de la base de données
                 String numClient = res.getString("numClient");
                 String codeAPE = res.getString("codeAPE");
                 String SIREN = res.getString("SIREN");

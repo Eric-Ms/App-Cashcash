@@ -90,14 +90,14 @@ public class BoutonClient implements ActionListener {
             frame_client.setSize(370, 490);
             frame_client.setVisible(true);
 
-            cnx.close();
+            cnx.close(); // Fermeture de la connexion
 
-
-            //for(int i = 1; i <= columns_count; i++) {
-            //    String temp = res.getString(i);
-            //    String col_name = resmtdt.getColumnName(i);
-            //   System.out.println(col_name + " : " + temp);
-            //}
+            // Automatisation de l'écriture dans la console en cas d'ajout ou de suppression de données
+//             for(int i = 1; i <= columns_count; i++) {
+//                 String temp = res.getString(i);
+//                 String col_name = resmtdt.getColumnName(i);
+//                System.out.println(col_name + " : " + temp);
+//             }
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
