@@ -12,7 +12,7 @@ public class Setup{
 
     public Setup() throws ClassNotFoundException, SQLException {
         Class.forName("com.mysql.jdbc.Driver");
-        System.out.println("Driver OK !");
+        System.out.println("Driver opérationnel !");
         String url="jdbc:mysql://localhost:3306/cashcash";
         String user="root";
         String password="";

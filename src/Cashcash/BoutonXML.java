@@ -12,6 +12,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -19,133 +20,141 @@ import java.sql.*;
 
 public class BoutonXML implements ActionListener {
 
-    private Connection cnx;
+    JTextField textField;
+    Connection cnx;
 
     public BoutonXML(JTextField textField, Connection cnx) {
+        this.textField = textField;
         this.cnx = cnx;
     }
 
 
     @Override
-    public void actionPerformed(ActionEvent e){
-            try {
-
-                Class.forName("com.mysql.jdbc.Driver");
-                System.out.println("Driver OK !");
-                String url="jdbc:mysql://localhost:3306/cashcash";
-                String user="root";
-                String password="";
-                Connection cnx= DriverManager.getConnection(url, user, password);
-                System.out.println("Connexion à la base de donnée établie.");
+    public void actionPerformed(ActionEvent e) {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            String url = "jdbc:mysql://localhost:3306/cashcash"; // Connexion à la base de données
+            String user = "root"; // Nom d'utilisateur
+            String password = ""; // Mot de passe
+            Connection cnx = DriverManager.getConnection(url, user, password);
 
 
+            String num_client = textField.getText(); // Stockage du numéro de client saisi (dans la variable num_client)
+            Statement stmt = cnx.createStatement();
+            String sql = "SELECT * FROM cashcash.client WHERE numClient = " + num_client; // Séléction du client ayant le n° de client saisi auparavant
+            ResultSet res = stmt.executeQuery(sql); // Exécution de la requête
 
-                Statement stmt = cnx.createStatement();
-                String sql = "SELECT codeAPE, SIREN, telClient, adresse, adresseMail, faxClient, raisonSociale FROM cashcash.client";
-                String sql_employe = "SELECT * FROM cashcash.employes WHERE numMatricule = ";
-                ResultSet res = stmt.executeQuery(sql);
+            //Créer un nouveau frame pour stocker l'étiquette
+            // JFrame frame = new JFrame("Liste des adresses mail");
+            // String adresseMailConcat = "<html>"; // Pour les retours à la ligne
 
-                //Créer un nouveau frame pour stocker l'étiquette
-                JFrame frame = new JFrame("Liste des adresses mail");
-                String adresseMailConcat = "<html>"; // Pour les retours à la ligne
+            //étape 5: extraire les données
+            while (res.next()) {
+                //Récupérer par nom de colonne
+                String numClient = res.getString("numClient");
+                String codeAPE = res.getString("codeAPE");
+                String SIREN = res.getString("SIREN");
+                String telClient = res.getString("telClient");
+                String adresse = res.getString("adresse");
+                String adresseMail = res.getString("adresseMail");
+                String faxClient = res.getString("faxClient");
+                String raisonSociale = res.getString("raisonSociale");
+                String distanceKilometre = res.getString("distanceKilometre");
+                String dureeDeplacement = res.getString("dureeDeplacement");
+                String numAgence = res.getString("numAgence");
 
-                //étape 5: extraire les données
-                while(res.next()){
-                    //Récupérer par nom de colonne
-                    String codeAPE = res.getString("codeAPE");
-                    String SIREN = res.getString("SIREN");
-                    String telClient = res.getString("telClient");
-                    String adresse = res.getString("adresse");
-                    String adresseMail = res.getString("adresseMail");
-                    String faxClient = res.getString("faxClient");
-                    String raisonSociale = res.getString("raisonSociale");
+                DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
-                    DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+                // Ajout de l'élément principal
+                Document doc = docBuilder.newDocument();
+                Element rootElement = doc.createElement("ClientCashCash");
+                doc.appendChild(rootElement);
 
-                    // Ajout de l'élément principal
-                    Document doc = docBuilder.newDocument();
-                    Element rootElement = doc.createElement("Cashcash");
-                    doc.appendChild(rootElement);
+                // Element principal
+                Element client = doc.createElement("client");
+                rootElement.appendChild(client);
 
-                    // staff elements
-                    Element staff = doc.createElement("Clients");
-                    rootElement.appendChild(staff);
+                // Section : Numéro de client
+                Element numeroClient = doc.createElement("numero");
+                numeroClient.appendChild(doc.createTextNode(numClient) );
+                client.appendChild(numeroClient);
 
-                    // Ajout de l'élément Prénom
-                    Element codeape = doc.createElement("CodeAPE");
-                    codeape.appendChild(doc.createTextNode(codeAPE));
-                    staff.appendChild(codeape);
+                // Section : Code APE
+                Element codeape = doc.createElement("codeAPE");
+                codeape.appendChild(doc.createTextNode(codeAPE) );
+                client.appendChild(codeape);
 
-                    // Ajout de l'élément Nom de famille
-                    Element siren = doc.createElement("SIREN");
-                    siren.appendChild(doc.createTextNode(SIREN));
-                    staff.appendChild(siren);
+                // Section : Code SIREN
+                Element codesiren = doc.createElement("siren");
+                codesiren.appendChild(doc.createTextNode(SIREN) );
+                client.appendChild(codesiren);
 
-                    // Ajout de l'élément Nom de famille
-                    Element tel = doc.createElement("Téléphone");
-                    tel.appendChild(doc.createTextNode(telClient));
-                    staff.appendChild(tel);
+                // Section : Téléphone client
+                Element numerotel = doc.createElement("telephone");
+                numerotel.appendChild(doc.createTextNode(telClient) );
+                client.appendChild(numerotel);
 
-                    // Ajout de l'élément Nom de famille
-                    Element addr = doc.createElement("Adresse");
-                    addr.appendChild(doc.createTextNode(adresse));
-                    staff.appendChild(addr);
+                // Section : Adresse
+                Element adressedom = doc.createElement("adresse");
+                adressedom.appendChild(doc.createTextNode(adresse) );
+                client.appendChild(adressedom);
 
-                    // Ajout de l'élément Nom de famille
-                    Element addrmail = doc.createElement("Mail");
-                    addrmail.appendChild(doc.createTextNode(adresse));
-                    staff.appendChild(addrmail);
+                // Section : Adresse e-mail
+                Element adressemail = doc.createElement("mail");
+                adressemail.appendChild(doc.createTextNode(adresseMail) );
+                client.appendChild(adressemail);
 
-                    // Ajout de l'élément Nom de famille
-                    Element fax = doc.createElement("Fax");
-                    fax.appendChild(doc.createTextNode(faxClient));
-                    staff.appendChild(fax);
+                // Section : Numéro de fax
+                Element numerofax = doc.createElement("fax");
+                numerofax.appendChild(doc.createTextNode(faxClient) );
+                client.appendChild(numerofax);
 
-                    // Ajout de l'élément Nom de famille
-                    Element raisons = doc.createElement("RaisonSociale");
-                    raisons.appendChild(doc.createTextNode(raisonSociale));
-                    staff.appendChild(raisons);
+                // Section : Raison sociale
+                Element raisons = doc.createElement("raisonSociale");
+                raisons.appendChild(doc.createTextNode(raisonSociale) );
+                client.appendChild(raisons);
 
-                    // Ajouter du contenu dans le document XML
-                    TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                    Transformer transformer = transformerFactory.newTransformer();
-                    DOMSource source = new DOMSource(doc);
-                    StreamResult result = new StreamResult(new File("./FichiersXML/Fichier_de_"+ codeAPE +".xml"));
+                // Section : Distance en kilomètres
+                Element distance = doc.createElement("distanceKilometres");
+                distance.appendChild(doc.createTextNode(distanceKilometre) );
+                client.appendChild(distance);
 
-                    transformer.transform(source, result);
+                // Section : Durée du déplacement
+                Element duree = doc.createElement("dureeDeplacement");
+                duree.appendChild(doc.createTextNode(dureeDeplacement) );
+                client.appendChild(duree);
 
-                    //Créer une étiquette pour afficher du texte centré
-                    //JLabel label = new JLabel(adresseMail);
-                    //label.setBounds(0, i, 100, 5);
-                    //Ajouter l'étiquette au frame
-                    //frame.add(label);
+                // Section : Numéro d'agence
+                Element numeroagence = doc.createElement("agence");
+                numeroagence.appendChild(doc.createTextNode(numAgence) );
+                client.appendChild(numeroagence);
 
-                    adresseMailConcat += adresseMail + "<br/>";
-                }
-                adresseMailConcat += "</html>";
-                JLabel label = new JLabel(adresseMailConcat);
 
-                frame.add(label);
 
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(250, 250);
-                frame.setVisible(true);
+                // Ajouter du contenu dans le document XML
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                DOMSource source = new DOMSource(doc);
+                StreamResult result = new StreamResult(new File("./FichiersXML/Fichier_client_n°" + num_client + ".xml"));
 
-                cnx.close();
+                transformer.transform(source, result);
 
-                System.out.println("Les fichiers ont été générés avec succès !");
-
-                // Codes d'erreurs
-            } catch (ParserConfigurationException pce) {
-                pce.printStackTrace();
-            } catch (TransformerException tfe) {
-                tfe.printStackTrace();
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            } catch (ClassNotFoundException classNotFoundException) {
-                classNotFoundException.printStackTrace();
             }
-        }
+            cnx.close(); // Fermeture de la connexion
 
+            System.out.println("Le fichier XML a été généré avec succès !");
+
+            // Codes d'erreurs
+        } catch (ParserConfigurationException pce) {
+            pce.printStackTrace();
+        } catch (TransformerException tfe) {
+            tfe.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (ClassNotFoundException classNotFoundException) {
+            classNotFoundException.printStackTrace();
+        }
     }
+
+}

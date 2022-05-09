@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        ConnexionBDD cnx = new ConnexionBDD();
+        //ConnexionBDD cnx = new ConnexionBDD();
         try {
             new Setup();
         } catch (SQLException throwables) {
@@ -14,8 +14,5 @@ public class Main {
         } catch (ClassNotFoundException classNotFoundException) {
             classNotFoundException.printStackTrace();
         }
-
-//        MaFenetre fen = new MaFenetre();
-//        fen.setVisible(true);
     }
 }
