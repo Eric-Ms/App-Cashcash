@@ -33,8 +33,8 @@ public class BoutonXML implements ActionListener {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://localhost:3306/cashcash"; // Connexion à la base de données
-            String user = "root"; // Nom d'utilisateur
-            String password = ""; // Mot de passe
+            String user = "admin"; // Nom d'utilisateur
+            String password = "password"; // Mot de passe
             Connection cnx = DriverManager.getConnection(url, user, password);
 
 
